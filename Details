@@ -1,0 +1,28 @@
+# Jaffle Shop Operational Optimization Engine 🚀
+
+This dbt project transforms raw transactional data into business-ready dimensional marts. It optimizes multi-location menu items, increases Customer Lifetime Value (CLV), and identifies high-margin product opportunities.
+
+## 🏗️ Project Architecture
+
+Our data transformation pipeline scales raw logs into clean layers:
+1. **Staging Layer (`models/staging/`)**: Cleans, renames, and types source inputs into standardized views.
+2. **Marts Layer (`models/marts/`)**: Exposes dense, business-ready models optimized for BI tool consumption.
+
+### Dimensional Models (`dim_`)
+*   **`dim_customers`**: Aggregates customer profiles, tracking purchase frequencies, activity timelines, and overall Lifetime Value (LTV).
+*   **`dim_products`**: Maps menu items directly against raw ingredient costs to establish precise unit economic baselines.
+
+### Fact Models (`fct_`)
+*   **`fct_orders`**: The core operational transaction log tracking totals, taxes, and values per store.
+*   **`fct_order_items`**: A granular line-item table linking individual orders to product costs and gross profit margins.
+
+## 📈 Core Strategic Insights & Findings
+
+*   **Elite Retention**: The 2016-09 signup cohort averages **5.36 repeat orders**, contributing **$5,645.84 in average LTV** per customer.
+*   **Flagship Store Performance**: Store `4b6c2304` is our top-performing hub, generating **$681,800 in total revenue** at a spectacular **79.38% profit margin**.
+*   **Menu Unit Economics**: Beverages dominate percentage margins led by 'For Richer or Pourover' at **88.3% gross margin** ($6.18 profit). Jaffles drive raw transaction cash volume led by 'Flame Impala' at **$10.57 in cash profit** per item.
+
+## 🧪 Data Governance & Quality Controls
+Our project enforces data integrity tests on every run:
+*   **Primary Key Verification**: Strict `unique` and `not_null` assertions applied across all dimensional and operational anchors.
+*   **Domain Logic Enforcement**: Employs an `accepted_values` validation matrix on product types to prevent upstream mapping drifts.

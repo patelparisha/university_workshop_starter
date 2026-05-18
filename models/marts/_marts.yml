@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: "Centrally aggregated customer profiles with lifetime value metrics."
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: number_of_orders
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+
+  - name: dim_products
+    description: "Menu products mapped against their base supply costs and profit margins."
+    columns:
+      - name: product_sku
+        tests:
+          - unique
+          - not_null
+      - name: product_type
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['jaffle', 'beverage']
+
+  - name: fct_orders
+    description: "Core transaction log tracking high-level order values and totals per store."
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: order_total
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= 0"
+
+  - name: fct_orders_items
+    description: "Granular line-item table mapping individual item sales to their product profit margins."
+    columns:
+      - name: item_id
+        tests:
+          - unique
+          - not_null
+      - name: retail_price
+        tests:
+          - dbt_utils.expression_is_true:
+              arguments:
+                expression: ">= production_cost"
